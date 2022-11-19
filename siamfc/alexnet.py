@@ -2,13 +2,14 @@ import torch
 import numpy as np
 import torch.nn.functional as F
 import torchvision.transforms as transforms
-from .custom_transforms import ToTensor
 
 from torchvision.models import alexnet
 from torch.autograd import Variable
 from torch import nn
 
+from .custom_transforms import ToTensor
 from .config import config
+
 
 class SiameseAlexNet(nn.Module):
     def __init__(self, gpu_id, train=True):

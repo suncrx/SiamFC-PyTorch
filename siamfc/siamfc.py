@@ -8,9 +8,13 @@ import torchvision.transforms as transforms
 
 from torch.autograd import Variable
 
+
+
+#from .custom_transforms import ToTensor
+from . import custom_transforms
+
 from .alexnet import SiameseAlexNet
 from .config import config
-from .custom_transforms import ToTensor
 from .utils import get_exemplar_image, get_pyramid_instance_image, get_instance_image
 
 torch.set_num_threads(1) # otherwise pytorch will take all cpus
@@ -23,9 +27,7 @@ class SiamFCTracker:
             self.model.load_state_dict(torch.load(model_path))
             self.model = self.model.cuda()
             self.model.eval() 
-        self.transforms = transforms.Compose([
-            ToTensor()
-        ])
+        self.transforms = transforms.Compose([custom_transforms.ToTensor()])
 
     def _cosine_window(self, size):
         """
@@ -120,3 +122,8 @@ class SiamFCTracker:
                 self.pos[0] + self.target_sz[0]/2 + 1, # xmax
                 self.pos[1] + self.target_sz[1]/2 + 1) # ymax
         return bbox
+
+
+if __name__ == '__main__':
+    t = SiamFCTracker('../models/siamfc_pretrained.pth', 0)
+    print(t)
