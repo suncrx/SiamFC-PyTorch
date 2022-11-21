@@ -11,10 +11,10 @@ from fire import Fire
 from tqdm import tqdm
 
 sys.path.append(os.getcwd())
-sys.path.append('../..')
+sys.path.append('..')
 
 
-from SiamFC.siamfc import SiamFCTracker
+from siamfc import SiamFCTracker
 
 def main(video_dir, gpu_id,  model_path):
     # load videos
@@ -39,7 +39,7 @@ def main(video_dir, gpu_id,  model_path):
         frame = cv2.cvtColor(cv2.imread(fn), cv2.COLOR_BGR2RGB)
         # get the bbox of the object from the first frame 
         if idx == 0:
-            # get the bbox on frame 1
+            # get the bbox from frame 1 and initialize the tracker
             subdat = gt_bboxes.loc[gt_bboxes['frame']==idx+1]
             bbox = subdat.iloc[0].values[1:5]
             print('ROI:', bbox)
